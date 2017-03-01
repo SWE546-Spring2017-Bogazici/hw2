@@ -98,6 +98,17 @@ def predict_element_class(point, points, k):
         return 3.0
 
 
+def find_prediction_accuracy(points, k):
+    fails = 0
+    for p in range(len(points)):
+        tmp = np.delete(points, p, 0)
+        predicted_class = predict_element_class(points[p], tmp, k)
+        expected_class = points[p][2]
+        if (predicted_class != expected_class):
+            fails = fails + 1
+    return ((len(points) - fails) * 100) / len(points)
+
+
 df_iris = pd.read_csv(u'iris.txt', sep=' ')
 
 x = df_iris[['pw', 'pl', 'c']].as_matrix()
@@ -123,9 +134,25 @@ q.put(0.2144)
 # print(q.get())
 # print(q.get())
 
-x = [[1, 1, 1.], [1, 2, 1.], [1, 3, 1.], [1, 4, 2.], [1, 5, 2.], [1, 6, 2.], [1, 7, 3.], [1, 8, 3.], [1, 9, 3.],
-     [1, 10, 3.]]
+# x = [[1, 1, 1.], [1, 2, 1.], [1, 3, 1.], [1, 4, 2.], [1, 5, 2.], [1, 6, 2.], [1, 7, 3.], [1, 8, 3.], [1, 9, 3.],
+#   [1, 10, 3.]]
 # [1, 11, 1], [1, 12, 1], [1, 13, 1], [1, 14, 1], [1, 15, 1], [1, 16, 1], [1, 17, 1], [1, 18, 1], [1, 19, 1],
 # [1, 20, 1], [1, 21, 1]]
 
-print(predict_element_class(x[1], x, 2))
+# print(predict_element_class(x[0], x, 1))
+# print(predict_element_class(x[1], x, 1))
+# print(predict_element_class(x[2], x, 1))
+# print(predict_element_class(x[3], x, 1))
+# print(predict_element_class(x[4], x, 1))
+# print(predict_element_class(x[5], x, 1))
+# print(predict_element_class(x[6], x, 1))
+# print(predict_element_class(x[7], x, 1))
+# print(predict_element_class(x[8], x, 1))
+# print(predict_element_class(x[9], x, 1))
+# print(find_prediction_accuracy(x,1))
+# print(find_prediction_accuracy(x,2))
+# print(find_prediction_accuracy(x,3))
+# print(find_prediction_accuracy(x,4))
+
+print(find_prediction_accuracy(x, 1))
+
