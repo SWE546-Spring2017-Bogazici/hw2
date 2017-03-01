@@ -50,19 +50,52 @@ def find_distance_between_points(p1, p2):
 def find_closest_k_points(point, points, k):
     dict = {}
     pq = Queue.PriorityQueue()
-
+    magicNumber = 0.0000000000001
     for p in range(len(points)):
         distance = find_distance_between_points(x[p], point)
+        while (distance in dict):
+            distance = distance + magicNumber
         dict[distance] = x[p]
         pq.put(distance)
 
     retval = []
     i = 0
     while (i < k):
-        retval.append(dict.get(pq.get()))
+        closest_distance = pq.get()
+        closest_cell = dict.get(closest_distance)
+        retval.append(closest_cell)
         i += 1
 
     return retval
+
+
+def predict_element_class(point, points, k):
+    closest_points = find_closest_k_points(point, points, k)
+    dict = {}
+    for i in range(len(closest_points)):
+        if (closest_points[i][2] in dict):
+            val = dict.get(closest_points[i][2])
+            dict[closest_points[i][2]] = val + 1
+        else:
+            dict[closest_points[i][2]] = 1
+
+    pq = Queue.PriorityQueue()
+    if (1.0 in dict):
+        pq.put(dict.get(1.0))
+    if (2.0 in dict):
+        pq.put(dict.get(2.0))
+    if (3.0 in dict):
+        pq.put(dict.get(3.0))
+
+    while not pq.empty():
+        predictedClass = pq.get()
+
+    if (predictedClass == dict.get(1.0)):
+        return 1.0
+    elif (predictedClass == dict.get(2.0)):
+        return 2.0
+    else:
+        return 3.0
 
 
 df_iris = pd.read_csv(u'iris.txt', sep=' ')
@@ -90,6 +123,9 @@ q.put(0.2144)
 # print(q.get())
 # print(q.get())
 
+x = [[1, 1, 1.], [1, 2, 1.], [1, 3, 1.], [1, 4, 2.], [1, 5, 2.], [1, 6, 2.], [1, 7, 3.], [1, 8, 3.], [1, 9, 3.],
+     [1, 10, 3.]]
+# [1, 11, 1], [1, 12, 1], [1, 13, 1], [1, 14, 1], [1, 15, 1], [1, 16, 1], [1, 17, 1], [1, 18, 1], [1, 19, 1],
+# [1, 20, 1], [1, 21, 1]]
 
-print(x[0])
-print(find_closest_k_points(x[0], x, 20))
+print(predict_element_class(x[1], x, 2))
