@@ -156,3 +156,16 @@ q.put(0.2144)
 
 print(find_prediction_accuracy(x, 1))
 
+start = 1
+end = 20
+bestAcc = {}
+bestAcc[1] = 0
+accuracyMap = {}
+while (start < end):
+    accuracy = find_prediction_accuracy(x, start)
+    accuracyMap[start] = accuracy
+    start = start + 1
+
+
+
+print(accuracyMap)
